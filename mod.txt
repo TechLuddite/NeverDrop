@@ -1,0 +1,11 @@
+[mod]
+name="NeverDrop"
+id="neverdrop"
+version="0.2.0"
+
+[autoload]
+NeverDropMain="res://mods/NeverDrop/Main.gd"
+
+[hooks]
+res://Scripts/Interface.gd = "Drop"
+res://Scripts/Placer.gd = "Collided"
