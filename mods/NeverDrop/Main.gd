@@ -1,6 +1,7 @@
 extends Node
 
-# Replace-hook Interface.Drop so items never spawn as world pickups.
+# Replace-hook Interface.Drop so items go back to a grid or slot instead of
+# spawning as world pickups. With no room anywhere, vanilla Drop runs.
 # FastDrop / ContextDrop / drag-off-UI / Close-while-dragging all call Drop().
 # Death does not drop in vanilla 0.1.1.3.
 # Place (G) is the world put-down. Collided is the collision drop we replace.
@@ -21,32 +22,52 @@ func _ready() -> void:
 
 
 func _on_drop(target) -> void:
-	_lib.skip_super()
 	var iface = _lib._caller
 	if target == null or not is_instance_valid(target) or iface == null:
+		_lib.skip_super()
 		return
+	if _rehome(iface, target):
+		_lib.skip_super()
+		return
+	# No grid or slot has room. Let vanilla Drop spawn the pickup: an item left
+	# parented to nothing is not saved and is lost on the next scene change.
+	print("NeverDrop: no room for %s, dropping to world" % str(target.slotData.itemData.name))
 
+
+# Puts the item back into a grid or slot. True only if it verifiably landed.
+# Return() and Place() can fail silently, e.g. SlotSwap -> AutoPlace overflow.
+func _rehome(iface, target) -> bool:
 	if iface.returnGrid or iface.returnSlot:
 		iface.Return(target)
-		return
+		if _landed(target):
+			return true
 
 	if iface.hoverGrid and iface.hoverGrid.Place(target):
-		return
+		return true
 
-	if iface.hoverSlot and target.get_parent() == iface.hoverSlot:
-		return
+	if iface.hoverSlot and target.get_parent() == iface.hoverSlot and _landed(target):
+		return true
 
 	var grid = iface.inventoryGrid
 	if grid == null:
-		return
-	if target.get_parent() != grid:
-		target.reparent(grid)
+		return false
 	if grid.Spawn(target):
-		return
+		return true
 	iface.Rotate(target)
 	if grid.Spawn(target):
-		return
+		return true
 	iface.Rotate(target)
+	return false
+
+
+func _landed(target) -> bool:
+	var parent = target.get_parent()
+	if parent == null:
+		return false
+	if target.equipped and target.equipSlot == parent:
+		return true
+	var items = parent.get("items")
+	return items is Array and items.has(target)
 
 
 func _on_collided(body) -> void:
