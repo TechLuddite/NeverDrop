@@ -1,6 +1,6 @@
 # NeverDrop
 
-A [Road to Vostok](https://store.steampowered.com/app/1963610) mod. Inventory drop and world collision drop are blocked. Place (default G) still puts an item down, and display wall-mount still works.
+A [Road to Vostok](https://store.steampowered.com/app/1963610) mod. An item you carry in front of you is no longer dropped when it collides with something. Place (default G) still puts it down, and display wall-mount still works. Inventory and drop behavior are vanilla.
 
 Written against game version 0.1.1.3. Requires [Metro Mod Loader](https://github.com/ametrocavich/vostok-mod-loader) 3.0 or newer.
 
@@ -16,17 +16,13 @@ Written against game version 0.1.1.3. Requires [Metro Mod Loader](https://github
 
 4. Launch the game, enable NeverDrop on the Mods tab, then launch modded.
 
-Disable it in that same tab to restore vanilla drop.
+Disable it in that same tab to restore vanilla collision drop.
 
 ## What it changes
 
-Vanilla inventory drop all goes through `Interface.Drop`: Fast Drop, the context-menu Drop action, releasing a drag off a grid, closing the inventory while an item is dragged, and a few overflow paths. The mod replace-hooks that method and returns the item to inventory instead of spawning a pickup.
-
-Some of those paths have no room to return to. Swapping a weapon onto an occupied slot displaces the old one, and if it fits neither the other slot nor any free inventory space, the mod lets vanilla drop it on the ground. An item that is not in a grid, a slot, or the world is not saved and is lost on the next zone change, which is what 0.2.0 did.
-
 Vanilla world carry drops the held item on any collision (`Placer.Collided`). The mod skip_supers that branch so the item stays in hand until Place. If the collider is in group `Display` and the item is a Weapon, Attachment, Knife, or Grenade, vanilla Collided still runs so wall-mount keeps working.
 
-Death does not drop loot in 0.1.1.3. This mod does not touch death.
+The mod does not touch the inventory, Fast Drop, the context-menu Drop, or death.
 
 ## Build
 

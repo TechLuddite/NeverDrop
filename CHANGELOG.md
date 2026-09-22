@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.0
+
+- Remove the `Interface.Drop` hook. The mod no longer changes inventory drop: Fast Drop, context-menu Drop, drag-off-grid, and closing the inventory while dragging all behave as vanilla again. That hook was never meant to be part of the mod.
+- Collision drop handling (`Placer.Collided`) is unchanged.
+
 ## 0.2.1
 
 - Fix item loss on weapon swap. In 0.2.0, a swap that displaced an equipped item with nowhere to go (full inventory, or a slot-to-slot swap where the item did not fit the other slot) left it parented to nothing. It was not saved and vanished on the next zone change. The mod now checks the item actually landed in a grid or slot, then tries free inventory space in both rotations, and if there is still no room lets vanilla drop it as a world pickup.
