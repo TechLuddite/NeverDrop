@@ -5,7 +5,9 @@ A [Road to Vostok](https://store.steampowered.com/app/1963610) mod. When you car
 - Mounting weapons, attachments, knives and grenades on a display still works.
 - Your inventory is untouched. Dropping items from it works as normal.
 
-Works with game version 0.1.1.3. Needs [Metro Mod Loader](https://github.com/ametrocavich/vostok-mod-loader) 3.0 or newer.
+Works with game versions 0.1.1.3 and 0.2.0.0 (Build 2). Needs [Metro Mod Loader](https://github.com/ametrocavich/vostok-mod-loader) 3.0 or newer. On Build 2 use Metro 3.4.1 or newer.
+
+Also on [ModWorkshop](https://modworkshop.net/mod/59110).
 
 ## Install
 
