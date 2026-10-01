@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.1
+
+- Verified on game Build 2 (0.2.0.0) with Metro 3.4.1. `Placer.gd` is unchanged in Build 2, so the mod code is unchanged.
+- Declare the ModWorkshop listing (`[updates] source="modworkshop:59110"`) so Metro can check for updates.
+
 ## 0.3.0
 
 - Remove the `Interface.Drop` hook. The mod no longer changes inventory drop: Fast Drop, context-menu Drop, drag-off-grid, and closing the inventory while dragging all behave as vanilla again. That hook was never meant to be part of the mod.
