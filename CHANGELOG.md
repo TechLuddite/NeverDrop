@@ -4,7 +4,7 @@
 
 - Return loose items that remain outside a shelter's indoor volumes for about two seconds, including items that settle after a collision. Reuse the stock return effect, message, and audio; preserve item data and stored contents.
 - Return escaped loose items before shelter serialization, preventing stock's below-map position check from omitting them during a transition.
-- Use the current five shelters' actual convex volumes, including Cabin's sloped roof, with a 0.2 m edge margin. Exclude held and frozen items, placed furniture, and ordinary game zones.
+- Use the six shelters' actual convex volumes (Attic, Bunker, Cabin, Classroom, Garage, Tent), including Cabin's and Garage's sloped roofs, with a 0.2 m edge margin. Exclude held and frozen items, placed furniture, and ordinary game zones.
 - Keep Place, display mounting, and inventory drop mechanics unchanged. Boundary recovery does not detect items clipped into furniture while their origin stays indoors.
 - Tested on game 0.2.0.5 (Steam build 25710663). Headless physics and Metro hook tests pass on Godot 4.6.3 with Metro 3.4.1 and 3.4.2. Played on 3.4.1 with no script errors, and loads cleanly on 3.4.2.
 
