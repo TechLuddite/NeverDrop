@@ -4,6 +4,8 @@ extends Node
 # Place (G) is still the world put-down. Inventory drop is vanilla.
 
 var _lib
+var _hooks: Array[int] = []
+var _shelter_return: Node
 
 
 func _ready() -> void:
@@ -12,8 +14,27 @@ func _ready() -> void:
 		push_error("NeverDrop: RTVModLib missing; Metro is required")
 		return
 	_lib = Engine.get_meta("RTVModLib")
-	if _lib.hook("placer-collided", _on_collided) == -1:
+	var collision_hook: int = _lib.hook("placer-collided", _on_collided)
+	if collision_hook == -1:
 		push_warning("NeverDrop: placer-collided replace already owned")
+	else:
+		_hooks.append(collision_hook)
+	_shelter_return = preload("res://mods/NeverDrop/ShelterReturn.gd").new()
+	_shelter_return.game_data = load("res://Resources/GameData.tres")
+	add_child(_shelter_return)
+	_hooks.append(_lib.hook("loader-saveshelter-pre", _before_save_shelter))
+
+
+func _exit_tree() -> void:
+	if is_instance_valid(_lib):
+		for hook_id in _hooks:
+			_lib.unhook(hook_id)
+	_hooks.clear()
+
+
+func _before_save_shelter(target_shelter) -> void:
+	if is_instance_valid(_shelter_return):
+		_shelter_return.before_save(target_shelter)
 
 
 func _on_collided(body) -> void:

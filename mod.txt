@@ -1,13 +1,14 @@
 [mod]
 name="NeverDrop"
 id="neverdrop"
-version="0.3.1"
+version="0.3.2"
 
 [autoload]
 NeverDropMain="res://mods/NeverDrop/Main.gd"
 
 [hooks]
 res://Scripts/Placer.gd = "Collided"
+res://Scripts/Loader.gd = "SaveShelter"
 
 [updates]
 source="modworkshop:59110"
