@@ -6,11 +6,11 @@ A [Road to Vostok](https://store.steampowered.com/app/1963610) mod. When you car
 - Mounting weapons, attachments, knives and grenades on a display still works.
 - Inventory drops work as normal. Held items and frozen stash or display items are excluded from boundary recovery.
 
-Tested on game 0.2.0.5 (Build 2) with Metro 3.4.1 and 3.4.2. Needs [Metro Mod Loader](https://github.com/ametrocavich/vostok-mod-loader) 3.0 or newer; on Build 2 use Metro 3.4.1 or newer. The carry hook was also verified on 0.1.1.3 and 0.2.0.0.
+Tested on game 0.2.1.0 (Build 2) with Metro 3.4.2, and on 0.2.0.5 with Metro 3.4.1 and 3.4.2. Needs [Metro Mod Loader](https://github.com/ametrocavich/vostok-mod-loader) 3.0 or newer; on Build 2 use Metro 3.4.1 or newer. The carry hook was also verified on 0.1.1.3 and 0.2.0.0.
 
 Recovery uses each shelter's indoor volume with a small edge margin. Items clipped into furniture while their origin remains indoors are outside this boundary check's coverage.
 
-Also on [ModWorkshop](https://modworkshop.net/mod/59110).
+Also on [ModWorkshop](https://modworkshop.net/mod/59110) and [Vostok Mods](https://vostokmods.net/mod/neverdrop).
 
 ## Install
 
