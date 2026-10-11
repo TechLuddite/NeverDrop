@@ -12,6 +12,7 @@ var _areas: Array[Area3D] = []
 var _volumes: Array[Dictionary] = []
 var _placers: Array[Node] = []
 var _tracked: Dictionary = {}
+var _returned: Dictionary = {}
 var _elapsed := 0.0
 var _margin_shape := SphereShape3D.new()
 
@@ -47,6 +48,7 @@ func _configure() -> bool:
 		_volumes.clear()
 		_placers.clear()
 		_tracked.clear()
+		_returned.clear()
 		_killbox = null
 	if _map == null or _map.is_queued_for_deletion() or _map.get("mapType") != "Shelter":
 		return false
@@ -66,7 +68,9 @@ func _configure() -> bool:
 
 
 func _eligible(item: Node) -> bool:
-	if not item is Pickup or item.is_queued_for_deletion() or item.freeze or not _map.is_ancestor_of(item):
+	# Stock shelter loading and drops parent pickups to the map. Stock ItemReturn sets the
+	# local position, so a pickup under any other node would never reach the room.
+	if not item is Pickup or item.is_queued_for_deletion() or item.freeze or item.get_parent() != _map:
 		return false
 	if item.slotData == null or item.slotData.itemData == null:
 		return false
@@ -89,15 +93,23 @@ func _scan(step: float, saving: bool) -> void:
 		var inside := _inside_geometry(position) if saving else _inside_physics(position)
 		if inside:
 			_tracked.erase(key)
+			_returned.erase(key)
+			continue
+		# One return per trip outside: a return that lands outside is not repeated.
+		if _returned.has(key):
 			continue
 		var outside_time: float = _tracked.get(key, 0.0) + step
 		_tracked[key] = outside_time
 		if saving or outside_time >= RETURN_DELAY:
 			_killbox.HandleItem(item)
 			_tracked.erase(key)
+			_returned[key] = true
 	for key in _tracked.keys():
 		if not present.has(key):
 			_tracked.erase(key)
+	for key in _returned.keys():
+		if not present.has(key):
+			_returned.erase(key)
 
 
 func _inside_physics(position: Vector3) -> bool:

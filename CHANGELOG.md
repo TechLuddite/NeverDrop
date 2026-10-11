@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.3
+
+- Fix repeated "Item Returned" messages and lag spikes every two seconds in a shelter (reported on Vostok Mods). Pickups that another mod places under its own nodes were treated as escaped, and the stock return could never move them, so they were returned forever. Only pickups the game places directly in the shelter are checked now.
+- Return each item at most once per trip outside. An item that is still outside after its return is left alone until it has been back inside.
+- Tested on game 0.2.1.0 with Metro 3.4.2. Headless tests and an in-game check reproduce the 0.3.2 loop and confirm the fix.
+
 ## 0.3.2
 
 - Return loose items that remain outside a shelter's indoor volumes for about two seconds, including items that settle after a collision. Reuse the stock return effect, message, and audio; preserve item data and stored contents.
